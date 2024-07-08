@@ -1,3 +1,0 @@
-#+title: Turing machine emulator(?)
-
-In celebration of BB(5) being proved let's build a Turing machine emulator to run it.
