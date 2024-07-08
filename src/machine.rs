@@ -14,11 +14,11 @@ pub struct Machine {
 fn parse_rule(rule_string: &str) -> Rule {
     let bytes = rule_string.as_bytes();
     Rule {
-        new_state: bytes[2] - 'A' as u8,
-        write_tape: bytes[0] - '0' as u8,
-        move_tape: match bytes[1] as char {
-            'R' => 1,
-            'L' => -1,
+        new_state: bytes[2] - b'A',
+        write_tape: bytes[0] - b'0',
+        move_tape: match bytes[1] {
+            b'R' => 1,
+            b'L' => -1,
             _ => panic!("Unexpected string!"),
         },
     }
@@ -29,7 +29,7 @@ impl Machine {
         // Example string:
         // 1RB1LC_1RC1RB_ ...
         let mut rules = Vec::new();
-        let parts = machine_string.split("_");
+        let parts = machine_string.split('_');
         for part in parts {
             rules.push(parse_rule(&part[0..3]));
             rules.push(parse_rule(&part[3..6]));
@@ -57,6 +57,6 @@ impl Machine {
             self.tape.extend(vec![0; self.tape.len()]);
         }
         self.offset = (self.offset as isize + rule.move_tape as isize) as usize;
-        self.state != 'Z' as u8 - 'A' as u8
+        self.state != b'Z' - b'A'
     }
 }
